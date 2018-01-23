@@ -13,28 +13,34 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        //setContentView(R.layout.station_card_layout)
         initRecyclerView()
-        val tx = findViewById<TextView>(R.id.textView)
 
-           tx.setOnClickListener {
-               thread(start =true){
-               kotlin.run{
-                   var query = Query.getInstance()
-                   var loginResult:String = query.Login()
-                   runOnUiThread { tx.setText(loginResult) }
-               }
-           }
-           }
+
         LoadStationList("demo")
     }
+    /*
+    fun initTextView(){
+        val tx =findViewById<TextView>(R.id.textView)
 
+        tx.setOnClickListener {
+            thread(start =true){
+                kotlin.run{
+                    var query = Query.getInstance()
+                    var loginResult:String = query.Login()
+                    runOnUiThread { tx.setText(loginResult) }
+                }
+            }
+        }
+    }
+    */
     //
     fun initRecyclerView(){
         var stationList:List<MyPowerStation> =emptyList<MyPowerStation>()
         var adapter =MyPowerStationListAdapter(this,stationList)
         var rec:RecyclerView =findViewById(R.id.rec_myPowerStation)
         rec.layoutManager =LinearLayoutManager(this)
-        rec.addItemDecoration(MyPowerStationListDecoration())
+        //rec.addItemDecoration(MyPowerStationListDecoration())
         rec.adapter =adapter
 
     }

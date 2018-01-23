@@ -4,11 +4,14 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hongon.solarexplorer.dataBean.DayChartDataBean;
+import com.hongon.solarexplorer.dataBean.DeviceBean;
 import com.hongon.solarexplorer.dataBean.Login;
 import com.hongon.solarexplorer.dataBean.MyPowerStation;
 
 import org.json.JSONArray;
 
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -60,6 +63,40 @@ public class Query {
             Response x = client.newCall(request).execute();
             //Log.d("query",x.body().string());
             List<MyPowerStation> result =new Gson().fromJson(x.body().string(),new TypeToken<List<MyPowerStation>>(){}.getType());
+            return result;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+    // 获取某个站点麾下的逆变器运营状态数据
+    public List<DeviceBean> getMyDeviceListById(String stationId){
+        String url ="http://www.goodwe-power.com/Mobile/GetMyDeviceListById?stationId="+stationId;
+        Request request = new Request.Builder().url(url).build();
+        try {
+            Response x = client.newCall(request).execute();
+            //Log.d("query",x.body().string());
+            List<DeviceBean> result =new Gson().fromJson(x.body().string(),new TypeToken<List<DeviceBean>>(){}.getType());
+            return result;
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+
+    /*
+    * @param stationID  选中的站点
+    * @param dayTime    选择的日期（不能超过当日，可以是以前的日子）
+    * @param selectSN 选中的逆变器序列号*/
+    public DayChartDataBean getEnergyInverterDayChartDataByStationID(String stationId ,String dayTime,String selectSN){
+        String url ="GetEnergyInverterDayChartDataByStationID?StationID="+stationId+"&DayTime="+dayTime+"&selectSN="+selectSN;
+        Request request = new Request.Builder().url(url).build();
+        try {
+            Response x = client.newCall(request).execute();
+            //Log.d("query",x.body().string());
+            DayChartDataBean result =new Gson().fromJson(x.body().string(),DayChartDataBean.class);
             return result;
         }catch (Exception ex){
             ex.printStackTrace();
