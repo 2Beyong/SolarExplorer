@@ -23,6 +23,17 @@ class MyPowerStation (
       var  dayIncome:String,
       @SerializedName("value_totalIncome")
       var  totalIncome:String
-)
+
+){
+      public fun dayIncomeTranslation() :String{
+            if(dayIncome!=null){
+                  val regex =Regex("(\\d+)\\.?(\\d+)")
+                  val result = regex.find(dayIncome)!!.value
+
+                  return result+Regex("[^\\.\\d]+").find(dayIncome)!!.value
+            }
+            return "";
+      }
+}
 
 

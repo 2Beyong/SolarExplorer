@@ -3,10 +3,17 @@ package com.hongon.solarexplorer
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.LinearSnapHelper
 import android.support.v7.widget.RecyclerView
 import android.widget.TextView
 import com.hongon.solarexplorer.dataBean.MyPowerStation
 import kotlin.concurrent.thread
+import android.support.v4.view.ViewCompat.setScaleY
+import android.icu.util.UniversalTimeScale.MAX_SCALE
+import android.util.Log
+import android.widget.RelativeLayout
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -39,11 +46,19 @@ class MainActivity : AppCompatActivity() {
         var stationList:List<MyPowerStation> =emptyList<MyPowerStation>()
         var adapter =MyPowerStationListAdapter(this,stationList)
         var rec:RecyclerView =findViewById(R.id.rec_myPowerStation)
-        rec.layoutManager =LinearLayoutManager(this)
+
+
+        rec.layoutManager =LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         //rec.addItemDecoration(MyPowerStationListDecoration())
         rec.adapter =adapter
 
+        //
+
+
     }
+    //
+
+
     //
     fun LoadStationList(userName:String){
         thread(start=true){

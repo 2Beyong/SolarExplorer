@@ -11,6 +11,10 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.hongon.solarexplorer.dataBean.MyPowerStation
 
+import android.animation.Animator;
+import android.view.animation.Animation
+import android.view.animation.ScaleAnimation
+
 /**
  * Created by CoCO on 2018/1/22.
  */
@@ -35,6 +39,7 @@ RecyclerView.Adapter<MyPowerStationListAdapter.ViewHolder>(){
 
         var view:View = LayoutInflater.from(parent.context).inflate(R.layout.station_card_layout,parent,false)
         var holder = ViewHolder(view)
+
         return holder
     }
 
@@ -44,11 +49,22 @@ RecyclerView.Adapter<MyPowerStationListAdapter.ViewHolder>(){
         Glide.with(mContext).load("http://www.goodwe-power.com"+items[position].stationPictureUrl).centerCrop().crossFade().into(holder.image)
         //holder.image
         holder.eDay.setText(items[position].eDayTotal)
-        holder.incomeDay.text = items[position].dayIncome
+        holder.incomeDay.text = items[position].dayIncomeTranslation()
         holder.power.text=items[position].currentPower
+
+
+
     }
 
     override fun getItemCount(): Int {
         return items.size
     }
+
+    /*
+    *Animation
+    * */
+
+
+
+
 }
