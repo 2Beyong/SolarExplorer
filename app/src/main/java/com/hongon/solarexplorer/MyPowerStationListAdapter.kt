@@ -12,8 +12,10 @@ import com.bumptech.glide.Glide
 import com.hongon.solarexplorer.dataBean.MyPowerStation
 
 import android.animation.Animator;
+import android.content.Intent
 import android.view.animation.Animation
 import android.view.animation.ScaleAnimation
+import android.widget.Toast
 
 /**
  * Created by CoCO on 2018/1/22.
@@ -52,7 +54,15 @@ RecyclerView.Adapter<MyPowerStationListAdapter.ViewHolder>(){
         holder.incomeDay.text = items[position].dayIncomeTranslation()
         holder.power.text=items[position].currentPower
 
+        //其实可以从外面调进来 类似Service中的举措 不过这里是写进了Adapter，并不是很方便
+        holder.itemView.setOnClickListener {
+            //Toast.makeText(mContext,"U click "+items[position].stationID,Toast.LENGTH_SHORT).show()
+            var myIntent = Intent(mContext,ChartActivity::class.java)
+            myIntent.putExtra("stationId",items[position].stationID)
 
+            mContext.startActivity(myIntent)
+
+        }
 
     }
 

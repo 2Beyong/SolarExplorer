@@ -9,6 +9,7 @@ import java.util.*
  * Created by CoCO on 2018/1/22.
  */
 class MyPowerStation (
+      @SerializedName("stationId")
       var stationID:String,
       var stationName:String,
       @SerializedName("station_pic")

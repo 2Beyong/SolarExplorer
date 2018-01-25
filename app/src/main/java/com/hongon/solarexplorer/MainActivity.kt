@@ -12,7 +12,8 @@ import android.support.v4.view.ViewCompat.setScaleY
 import android.icu.util.UniversalTimeScale.MAX_SCALE
 import android.util.Log
 import android.widget.RelativeLayout
-
+import com.bumptech.glide.util.Util
+import com.leochuan.ScaleLayoutManager
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,21 +27,7 @@ class MainActivity : AppCompatActivity() {
 
         LoadStationList("demo")
     }
-    /*
-    fun initTextView(){
-        val tx =findViewById<TextView>(R.id.textView)
 
-        tx.setOnClickListener {
-            thread(start =true){
-                kotlin.run{
-                    var query = Query.getInstance()
-                    var loginResult:String = query.Login()
-                    runOnUiThread { tx.setText(loginResult) }
-                }
-            }
-        }
-    }
-    */
     //
     fun initRecyclerView(){
         var stationList:List<MyPowerStation> =emptyList<MyPowerStation>()
@@ -48,16 +35,20 @@ class MainActivity : AppCompatActivity() {
         var rec:RecyclerView =findViewById(R.id.rec_myPowerStation)
 
 
-        rec.layoutManager =LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        //rec.layoutManager =LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        rec.layoutManager = createScaleLayoutManager()
         //rec.addItemDecoration(MyPowerStationListDecoration())
         rec.adapter =adapter
 
         //
 
 
+
     }
     //
-
+    fun createScaleLayoutManager(): ScaleLayoutManager{
+        return ScaleLayoutManager(this, 20)
+    }
 
     //
     fun LoadStationList(userName:String){
