@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        thread(start=true){ Query.getInstance().Login()}
         //setContentView(R.layout.station_card_layout)
         initRecyclerView()
 

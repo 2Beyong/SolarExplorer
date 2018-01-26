@@ -39,7 +39,7 @@ class ChartActivity:AppCompatActivity(){
         Toast.makeText(this,"Selected ID is: "+stationID,Toast.LENGTH_SHORT).show()
 
         // DateTime 设置 获取今天的时间
-        var dateFormat = SimpleDateFormat("yyyy-mm-dd")
+        var dateFormat = SimpleDateFormat("yyyy-MM-dd")
         var dateToday:String = dateFormat.format(Date())
 
         // GetMonth
@@ -75,8 +75,6 @@ class ChartActivity:AppCompatActivity(){
     inner class ReceiveInterface( ) :Query.OnReceivePowerBarChart {
         override fun OnReceiveDay(result: MutableList<EnergyEntry>) {
             runOnUiThread{
-                Toast.makeText(this@ChartActivity,"day"+result[0].getIndex().toString(),Toast.LENGTH_SHORT).show()
-                Log.e("xx","OnReceive"+result[0].getIndex().toString())
 
                 var valSet = ArrayList<Entry>()
 
@@ -93,6 +91,7 @@ class ChartActivity:AppCompatActivity(){
 
                 chartActive.data =linedata
                 chartActive.notifyDataSetChanged()
+                chartActive.invalidate()
             }
 
         }

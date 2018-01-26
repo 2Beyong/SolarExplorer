@@ -15,6 +15,7 @@ import com.hongon.solarexplorer.dataBean.MyPowerStation;
 import org.json.JSONArray;
 
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.OkHttpClient;
@@ -52,6 +53,7 @@ public class Query {
             Response x = client.newCall(request).execute();
             //Log.d("query",x.body().string());
             Login loginResult =new Gson().fromJson(x.body().string(),Login.class);
+            Log.e("Query","login receive: "+loginResult.getLoginFlagMsg());
             return loginResult.getLoginFlagMsg();
         }catch (Exception ex){
             ex.printStackTrace();
@@ -108,19 +110,23 @@ public class Query {
     }
 
     public List<EnergyEntry> getPowerBarChart(String stationId,int queryType,String date){
-        String url ="http://www.goodwe-power.com/Mobile/GetPowerBarChart?stationID="+stationId+"&queryType="+queryType+"&date="+date;
+        String url ="http://www.goodwe-power.com/Mobile/GetPowerBarChart?stationId="+stationId+"&queryType="+queryType+"&date="+date;
         //
+        Log.e("PowerBarChart","Url = " +url);
+        //url =" http://www.goodwe-power.com/Mobile/GetPowerBarChart?stationId=4755d8f2-b14c-4f8f-8b32-6c9f2ff95b4f&queryType=2&date=2018-01-26";
         Request request = new Request.Builder().url(url).build();
         try {
             Response x = client.newCall(request).execute();
+            String str = x.body().string();
+            Log.e("Query","Receive: "+str);
             //
             if(queryType ==1){
-                List<EnergyEntry> result = new Gson().fromJson(x.body().string(), new TypeToken<List<EnergyMonthly>>(){}.getType());
+                List<EnergyEntry> result = new Gson().fromJson(str, new TypeToken<List<EnergyMonthly>>(){}.getType());
                 mInterface.OnReceiveMonth(result);
                 return result;
             }
             else if(queryType ==2){
-                List<EnergyEntry> result = new Gson().fromJson(x.body().string(), new TypeToken<List<EnergyDaily>>(){}.getType());
+                List<EnergyEntry> result = new Gson().fromJson(str, new TypeToken<List<EnergyDaily>>(){}.getType());
                 mInterface.OnReceiveDay(result);
                 return result;
             }
@@ -129,7 +135,7 @@ public class Query {
         }catch (Exception ex){
             ex.printStackTrace();
         }
-        return null ;
+        return new ArrayList<EnergyEntry>();
     }
     //
     public interface OnReceivePowerBarChart{
